@@ -33,3 +33,5 @@ class TestGetOrderForUser:
         response_for_order = OrderRequests().get_user_orders(token=refresh)
         assert (response_for_order['text']['message'] == "You should be authorised"
                 and response_out['message'] == 'Successful logout')
+
+
