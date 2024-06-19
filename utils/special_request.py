@@ -4,7 +4,9 @@ import string
 
 import requests
 import allure
+from faker import Faker
 
+fake = Faker()
 
 def generate_random_string(length):
     letters = string.ascii_lowercase
