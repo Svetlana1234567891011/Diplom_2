@@ -61,8 +61,8 @@ def courier_with_payload(create_payload):
     response_new = courier_requests.post_create_user(data=payload)
     access_token = response_new.get('accessToken')
 
-    if access_token:
-        courier_requests.access_token = access_token
+
+    courier_requests.access_token = access_token
 
     return courier_requests
 
