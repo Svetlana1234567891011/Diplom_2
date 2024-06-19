@@ -11,13 +11,9 @@ email = fake.email()
 @allure.feature('Проверка авторизации пользователя, успешный запрос возвращает id')
 class TestLogin:
     @allure.title('Пользователь может авторизоваться с существующей учетной записью')
-    def test_user_can_login(self, create_payload):
-        courier_requests = UserRequests()  # Создаем экземпляр класса CourierRequests
-        payload = create_payload
-        response_new = courier_requests.post_create_user(data=create_payload)  # Создаем Пользователя
-
-        response_login = courier_requests.post_login_user(data=payload,
-                                                          token=response_new['accessToken'])  # Аутентификация
+    def test_user_can_login(self, create_payload, courier_with_payload):
+        response_login = courier_with_payload.post_login_user(data=courier_with_payload.payload,
+                                                              token=courier_with_payload.access_token)  # Аутентификация
         assert response_login["success"] == True
 
     @pytest.mark.parametrize("change_value",
