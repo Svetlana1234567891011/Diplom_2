@@ -1,11 +1,8 @@
 import pytest
 from conftest import create_payload, fake
-from utils.special_request import UserRequests, generate_random_string
 import allure
 
-randoms_string = generate_random_string(10)
 
-email = fake.email()
 
 
 @allure.feature('Проверка авторизации пользователя, успешный запрос возвращает id')
@@ -16,23 +13,19 @@ class TestLogin:
                                                               token=courier_with_payload.access_token)  # Аутентификация
         assert response_login["success"] == True
 
-    @pytest.mark.parametrize("change_value",
-                             ["password"
-                              ]
-                             )
+
     @allure.title('Пользователь с отсутствующим паролем не может залогиниться')
-    def test_user_cannot_login(self, courier_with_payload, change_value):
-        courier_with_payload.payload[change_value] = randoms_string  # Меняем пароль
+    def test_user_cannot_login(self, courier_with_payload):
+        courier_with_payload.payload['password'] = None  # Убираем пароль
         response = courier_with_payload.post_login_user(data=courier_with_payload.payload,
                                                         token=courier_with_payload.access_token)
 
         assert response['message'] == 'email or password are incorrect'
-        print(f"Response message: {response['message']}")
-        print(f"Full response: {response}")
+
 
     @allure.title('Пользователь с отсутствующим логином не может залогиниться')
     def test_user_cannot_name(self, courier_with_payload):
-        courier_with_payload.payload['email'] = email  # Меняем мейл
+        courier_with_payload.payload['email'] = None  # Убираем мейл
         response = courier_with_payload.post_login_user(data=courier_with_payload.payload,
                                                         token=courier_with_payload.access_token)
 
