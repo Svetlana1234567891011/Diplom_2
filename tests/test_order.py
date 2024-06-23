@@ -3,8 +3,7 @@ import allure
 from conftest import fake
 from utils.special_request import OrderRequests, generate_random_string
 
-randoms_string = generate_random_string(10)
-email = fake.email()
+
 
 
 @allure.feature('Создание и выгрузка заказов')
@@ -29,9 +28,9 @@ class TestOrder:
         assert response["message"] == 'Ingredient ids must be provided'
 
     @allure.title('Нельзя создать заказ с неверным id ингредиента')
-    def test_create_order_wrong_ingredients_id(self, create_order_payload):
+    def test_create_order_wrong_ingredients_id(self, create_order_payload, generate_random_string_10):
         payload = create_order_payload
-        payload["ingredients"][0] = randoms_string
+        payload["ingredients"][0] = generate_random_string_10
         response = OrderRequests().post_create_order_no_auth(data=payload)
         assert 'Internal Server Error' in response
 
