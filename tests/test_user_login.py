@@ -1,5 +1,5 @@
 import pytest
-from conftest import create_payload, fake
+from conftest import create_payload
 import allure
 
 
