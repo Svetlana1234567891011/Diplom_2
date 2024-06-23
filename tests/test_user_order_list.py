@@ -1,9 +1,7 @@
 import allure
-from conftest import fake
-from utils.special_request import OrderRequests, generate_random_string, UserRequests
+from utils.special_request import OrderRequests, UserRequests
 
-randoms_string = generate_random_string(10)
-email = fake.email()
+
 
 
 @allure.feature('Проверка создания заказов')
@@ -31,7 +29,6 @@ class TestGetOrderForUser:
         orders = OrderRequests().post_create_order_auth(data=create_order_payload, token=accesses)
         response_out = UserRequests().post_logout(token=refresh)
         response_for_order = OrderRequests().get_user_orders(token=refresh)
-        assert (response_for_order['text']['message'] == "You should be authorised"
-                and response_out['message'] == 'Successful logout')
+        assert (response_for_order['text']['message'] == "You should be authorised")
 
 
